@@ -4,11 +4,11 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-	--background: oklch(95.16% 0.0242 343.23);
+	--background: oklch(96.6% 0.005 106.5);
 	--secondary-background: oklch(100% 0 0);
 	--foreground: oklch(0% 0 0);
 	--main-foreground: oklch(0% 0 0);
-	--main: oklch(71.5% 0.197 354.23);
+	--main: oklch(71.8% 0.202 349.761);
 	--border: oklch(0% 0 0);
 	--ring: oklch(0% 0 0);
 	--overlay: oklch(0% 0 0 / 0.8);
