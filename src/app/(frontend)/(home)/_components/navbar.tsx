@@ -29,7 +29,7 @@ const NavbarItem = ({ href, children, isActive }: NavbarItemProps) => {
 		<Button
 			variant="noShadow"
 			className={cn(
-				"border-secondary-background hover:border-foreground rounded-full border bg-transparent px-3.5 text-lg",
+				"border-secondary-background hover:border-foreground h-12 rounded-full border bg-transparent px-3.5 text-lg",
 				isActive &&
 					"bg-foreground text-secondary-background hover:bg-foreground hover:text-secondary-background border-foreground hover:border-foreground",
 			)}
