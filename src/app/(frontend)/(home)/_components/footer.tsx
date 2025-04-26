@@ -1,6 +1,6 @@
 export const Footer = () => {
 	return (
-		<footer className="flex justify-between border-t p-6 font-medium">
+		<footer className="flex flex-col items-center gap-6 border-t p-6 font-medium md:flex-row md:justify-between">
 			<div className="text-main-foreground">
 				&copy; {new Date().getFullYear()} Craftly. All rights reserved.
 			</div>
