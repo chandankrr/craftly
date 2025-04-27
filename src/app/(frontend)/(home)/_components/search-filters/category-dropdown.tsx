@@ -4,15 +4,15 @@ import { useRef, useState } from "react";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
+import { CategoriesGetManyOutput } from "@/modules/categories/types";
 
 import { Button } from "@/components/ui/button";
 
-import { CustomCategory } from "../../types";
 import { SubcategoryMenu } from "./subcategory-menu";
 import { useDropdownPosition } from "./use-dropdown-position";
 
 interface CategoryDropdownProps {
-	category: CustomCategory;
+	category: CategoriesGetManyOutput[1];
 	isActive?: boolean;
 	isNavigationHovered?: boolean;
 }

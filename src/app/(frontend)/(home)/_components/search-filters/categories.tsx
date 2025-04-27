@@ -5,15 +5,15 @@ import { useEffect, useRef, useState } from "react";
 import { ListFilterIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { CategoriesGetManyOutput } from "@/modules/categories/types";
 
 import { Button } from "@/components/ui/button";
 
-import { CustomCategory } from "../../types";
 import { CategoriesSidebar } from "./categories-sidebar";
 import { CategoryDropdown } from "./category-dropdown";
 
 interface CategoriesProps {
-	data: CustomCategory[];
+	data: CategoriesGetManyOutput;
 }
 
 export const Categories = ({ data }: CategoriesProps) => {
@@ -116,7 +116,7 @@ export const Categories = ({ data }: CategoriesProps) => {
 			</div>
 
 			{/* Categories sidebar */}
-			<CategoriesSidebar open={isSibebarOpen} onOpenChange={setIsSibebarOpen} data={data} />
+			<CategoriesSidebar open={isSibebarOpen} onOpenChange={setIsSibebarOpen} />
 		</div>
 	);
 };
