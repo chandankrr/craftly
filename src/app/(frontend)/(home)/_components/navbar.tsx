@@ -5,9 +5,11 @@ import { Poppins } from "next/font/google";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { useQuery } from "@tanstack/react-query";
 import { MenuIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useTRPC } from "@/trpc/client";
 
 import { Button } from "@/components/ui/button";
 
@@ -52,6 +54,9 @@ export const Navbar = () => {
 	const pathname = usePathname();
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+	const trpc = useTRPC();
+	const session = useQuery(trpc.auth.session.queryOptions());
+
 	return (
 		<nav className="flex h-20 justify-between border-b bg-white font-medium">
 			{/* Logo */}
@@ -69,26 +74,38 @@ export const Navbar = () => {
 			</div>
 
 			{/* CTA buttons */}
-			<div className="hidden lg:flex">
-				<Button
-					variant="noShadow"
-					className="hover:bg-main bg-secondary-background h-full rounded-none border-0 border-l px-12 text-lg transition-colors"
-					asChild
-				>
-					<Link prefetch href="/sign-in">
-						Log in
-					</Link>
-				</Button>
-				<Button
-					variant="noShadow"
-					className="hover:bg-main bg-foreground hover:text-main-foreground h-full rounded-none border-0 border-l px-12 text-lg text-white transition-colors"
-					asChild
-				>
-					<Link prefetch href="/sign-up">
-						Start selling
-					</Link>
-				</Button>
-			</div>
+			{session.data?.user ? (
+				<div className="hidden lg:flex">
+					<Button
+						variant="noShadow"
+						className="hover:bg-main bg-foreground hover:text-main-foreground h-full rounded-none border-0 border-l px-12 text-lg text-white transition-colors"
+						asChild
+					>
+						<Link href="/admin">Dashboard</Link>
+					</Button>
+				</div>
+			) : (
+				<div className="hidden lg:flex">
+					<Button
+						variant="noShadow"
+						className="hover:bg-main bg-secondary-background h-full rounded-none border-0 border-l px-12 text-lg transition-colors"
+						asChild
+					>
+						<Link prefetch href="/sign-in">
+							Log in
+						</Link>
+					</Button>
+					<Button
+						variant="noShadow"
+						className="hover:bg-main bg-foreground hover:text-main-foreground h-full rounded-none border-0 border-l px-12 text-lg text-white transition-colors"
+						asChild
+					>
+						<Link prefetch href="/sign-up">
+							Start selling
+						</Link>
+					</Button>
+				</div>
+			)}
 
 			{/* Mobile menu button */}
 			<div className="flex items-center justify-center pr-6 lg:hidden">
