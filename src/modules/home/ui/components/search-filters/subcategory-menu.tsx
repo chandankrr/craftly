@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { CategoriesGetManyOutput } from "@/modules/categories/types";
+import { DEFAULT_BG_COLOR } from "@/modules/home/constants";
 
 interface SubcategoryMenuProps {
 	category: CategoriesGetManyOutput[1];
@@ -16,7 +17,7 @@ export const SubcategoryMenu = ({
 	isOpen,
 	position,
 }: SubcategoryMenuProps) => {
-	const backgroundColor = category.color || "#F5F5F5";
+	const backgroundColor = category.color || DEFAULT_BG_COLOR;
 
 	if (
 		!isOpen ||
