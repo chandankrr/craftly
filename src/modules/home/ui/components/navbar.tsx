@@ -8,8 +8,9 @@ import { usePathname } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { MenuIcon } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import { useTRPC } from "@/trpc/client";
+
+import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 
@@ -61,7 +62,9 @@ export const Navbar = () => {
 		<nav className="flex h-20 justify-between border-b bg-white font-medium">
 			{/* Logo */}
 			<Link href="/" className="flex items-center pl-6">
-				<span className={cn("text-5xl font-semibold", poppins.className)}>craftly</span>
+				<span className={cn("text-5xl font-semibold", poppins.className)}>
+					craftly
+				</span>
 			</Link>
 
 			{/* Navbar Items */}
@@ -109,13 +112,21 @@ export const Navbar = () => {
 
 			{/* Mobile menu button */}
 			<div className="flex items-center justify-center pr-6 lg:hidden">
-				<Button variant="noShadow" className="size-12" onClick={() => setIsSidebarOpen(true)}>
+				<Button
+					variant="noShadow"
+					className="size-12"
+					onClick={() => setIsSidebarOpen(true)}
+				>
 					<MenuIcon style={{ width: 24, height: 24 }} />
 				</Button>
 			</div>
 
 			{/* Mobile navbar */}
-			<MobileNavbar items={navbarItems} open={isSidebarOpen} onOpenChange={setIsSidebarOpen} />
+			<MobileNavbar
+				items={navbarItems}
+				open={isSidebarOpen}
+				onOpenChange={setIsSidebarOpen}
+			/>
 		</nav>
 	);
 };

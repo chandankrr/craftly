@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useParams } from "next/navigation";
 
 import { ListFilterIcon } from "lucide-react";
 
@@ -17,6 +18,8 @@ interface CategoriesProps {
 }
 
 export const Categories = ({ data }: CategoriesProps) => {
+	const params = useParams();
+
 	const containerRef = useRef<HTMLDivElement>(null);
 	const measureRef = useRef<HTMLDivElement>(null);
 	const viewAllRef = useRef<HTMLDivElement>(null);
@@ -25,14 +28,19 @@ export const Categories = ({ data }: CategoriesProps) => {
 	const [isAnyHovered, setIsAnyHovered] = useState(false);
 	const [isSibebarOpen, setIsSibebarOpen] = useState(false);
 
-	const activeCategory = "all";
+	const categoryParam = params.category as string | undefined;
+	const activeCategory = categoryParam || "all";
 
-	const activeCategoryIndex = data.findIndex((category) => category.slug === activeCategory);
-	const isActiveCategoryHidden = activeCategoryIndex >= visibleCount && activeCategoryIndex !== -1;
+	const activeCategoryIndex = data.findIndex(
+		(category) => category.slug === activeCategory,
+	);
+	const isActiveCategoryHidden =
+		activeCategoryIndex >= visibleCount && activeCategoryIndex !== -1;
 
 	useEffect(() => {
 		const calculateVisible = () => {
-			if (!containerRef.current || !measureRef.current || !viewAllRef.current) return;
+			if (!containerRef.current || !measureRef.current || !viewAllRef.current)
+				return;
 
 			const containerWidth = containerRef.current.offsetWidth;
 			const viewAllWidth = viewAllRef.current.offsetWidth;
@@ -106,7 +114,9 @@ export const Categories = ({ data }: CategoriesProps) => {
 						variant="reverse"
 						className={cn(
 							"hover:border-border hover:bg-secondary-background h-11 rounded-full border-transparent bg-transparent px-4",
-							isActiveCategoryHidden && !isAnyHovered && "border-border bg-secondary-background",
+							isActiveCategoryHidden &&
+								!isAnyHovered &&
+								"border-border bg-secondary-background",
 						)}
 						onClick={() => setIsSibebarOpen(true)}
 					>

@@ -11,10 +11,18 @@ interface SubcategoryMenuProps {
 	};
 }
 
-export const SubcategoryMenu = ({ category, isOpen, position }: SubcategoryMenuProps) => {
+export const SubcategoryMenu = ({
+	category,
+	isOpen,
+	position,
+}: SubcategoryMenuProps) => {
 	const backgroundColor = category.color || "#F5F5F5";
 
-	if (!isOpen || !category.subcategories || category.subcategories.length === 0) {
+	if (
+		!isOpen ||
+		!category.subcategories ||
+		category.subcategories.length === 0
+	) {
 		return null;
 	}
 

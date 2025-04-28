@@ -11,7 +11,10 @@ export const registerSchema = z.object({
 			/^[a-z0-9][a-z0-9-]*[a-z0-9]$/,
 			"Username can only contain lowercase letters, numbers and hypens. It must start and end with a letter and number",
 		)
-		.refine((val) => !val.includes("--"), "Username cannot contain consecutive hypens")
+		.refine(
+			(val) => !val.includes("--"),
+			"Username cannot contain consecutive hypens",
+		)
 		.transform((val) => val.toLowerCase()),
 });
 

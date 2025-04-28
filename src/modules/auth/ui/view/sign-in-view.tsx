@@ -10,8 +10,9 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { cn } from "@/lib/utils";
 import { useTRPC } from "@/trpc/client";
+
+import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -65,10 +66,17 @@ export const SignInView = () => {
 		<div className="grid grid-cols-1 lg:grid-cols-5">
 			<div className="hide-scrollbar h-screen w-full overflow-y-auto bg-[#f4f4f0] lg:col-span-2">
 				<Form {...form}>
-					<form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-8 p-4 lg:p-16">
+					<form
+						onSubmit={form.handleSubmit(onSubmit)}
+						className="flex flex-col gap-8 p-4 lg:p-16"
+					>
 						<div className="mb-8 flex items-center justify-between">
 							<Link href="/">
-								<span className={cn("text-2xl font-semibold", poppins.className)}>craftly</span>
+								<span
+									className={cn("text-2xl font-semibold", poppins.className)}
+								>
+									craftly
+								</span>
 							</Link>
 							<Button
 								variant="noShadow"

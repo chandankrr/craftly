@@ -27,7 +27,11 @@ export const SearchInput = ({ disabled }: SearchInputProps) => {
 		<div className="flex w-full items-center gap-2">
 			<div className="relative w-full">
 				<SearchIcon className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-neutral-500" />
-				<Input className="h-12 pl-8" placeholder="Search products" disabled={disabled} />
+				<Input
+					className="h-12 pl-8"
+					placeholder="Search products"
+					disabled={disabled}
+				/>
 			</div>
 
 			<Button
@@ -39,9 +43,14 @@ export const SearchInput = ({ disabled }: SearchInputProps) => {
 			</Button>
 
 			{session.data?.user && (
-				<Button variant="reverse" className="bg-secondary-background flex h-12 shrink-0" asChild>
+				<Button
+					variant="reverse"
+					className="bg-secondary-background flex h-12 shrink-0"
+					asChild
+				>
 					<Link href="/library">
-						<BookmarkCheckIcon /> Library
+						<BookmarkCheckIcon />{" "}
+						<span className="hidden lg:block">Library</span>
 					</Link>
 				</Button>
 			)}

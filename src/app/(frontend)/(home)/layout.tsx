@@ -4,10 +4,10 @@ import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 import { getQueryClient, trpc } from "@/trpc/server";
 
-import { Footer } from "./_components/footer";
-import { Navbar } from "./_components/navbar";
-import { SearchFilters } from "./_components/search-filters";
-import { SearchFilterSkelton } from "./_components/search-filters/search-filter-skelton";
+import { Footer } from "@/modules/home/ui/components/footer";
+import { Navbar } from "@/modules/home/ui/components/navbar";
+import { SearchFilters } from "@/modules/home/ui/components/search-filters";
+import { SearchFilterSkelton } from "@/modules/home/ui/components/search-filters/search-filter-skelton";
 
 const HomeLayout = async ({ children }: { children: React.ReactNode }) => {
 	const queryClient = getQueryClient();
