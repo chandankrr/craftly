@@ -13,7 +13,7 @@ import "@/styles/customs.css";
 const dmSans = DM_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	title: "Craftly - Mutlitanant Ecommerce",
+	title: "Craftly - Multitanant Ecommerce",
 	description:
 		"Craftly is a powerful multitenant eCommerce platform designed to help businesses create and manage their own online stores with ease.",
 };
