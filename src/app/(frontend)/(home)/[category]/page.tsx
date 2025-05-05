@@ -5,7 +5,7 @@ import type { SearchParams } from "nuqs/server";
 
 import { getQueryClient, trpc } from "@/trpc/server";
 
-import { loadProductFilters } from "@/modules/products/hooks/use-product-filters";
+import { loadProductFilters } from "@/modules/products/search-params";
 import { ProductFilters } from "@/modules/products/ui/components/product-filters";
 import { ProductList } from "@/modules/products/ui/components/product-list";
 import { ProductListSkeleton } from "@/modules/products/ui/components/product-list-skelton";
