@@ -3,6 +3,7 @@ import type { SearchParams } from "nuqs/server";
 
 import { getQueryClient, trpc } from "@/trpc/server";
 
+import { DEFAULT_LIMIT } from "@/lib/constants";
 import { loadProductFilters } from "@/modules/products/search-params";
 import { ProductListView } from "@/modules/products/ui/view/product-list-view";
 
@@ -18,10 +19,11 @@ const CategoryPage = async ({ params, searchParams }: CategoryPageProps) => {
 	const filters = await loadProductFilters(searchParams);
 
 	const queryClient = getQueryClient();
-	void queryClient.prefetchQuery(
-		trpc.products.getMany.queryOptions({
+	void queryClient.prefetchInfiniteQuery(
+		trpc.products.getMany.infiniteQueryOptions({
 			...filters,
 			category,
+			limit: DEFAULT_LIMIT,
 		}),
 	);
 
