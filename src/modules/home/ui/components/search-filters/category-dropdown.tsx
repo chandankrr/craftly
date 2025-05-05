@@ -45,7 +45,7 @@ export const CategoryDropdown = ({
 				<Button
 					variant="reverse"
 					className={cn(
-						"hover:border-border hover:bg-secondary-background h-11 rounded-full border-transparent bg-transparent px-4",
+						"hover:border-border hover:bg-secondary-background h-11 rounded-full border-transparent bg-transparent px-4 text-base",
 						isActive &&
 							!isNavigationHovered &&
 							"border-border bg-secondary-background",

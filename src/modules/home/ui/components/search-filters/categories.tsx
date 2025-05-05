@@ -115,14 +115,14 @@ export const Categories = ({ data }: CategoriesProps) => {
 					<Button
 						variant="reverse"
 						className={cn(
-							"hover:border-border hover:bg-secondary-background h-11 rounded-full border-transparent bg-transparent px-4",
+							"hover:border-border hover:bg-secondary-background h-11 rounded-full border-transparent bg-transparent px-4 text-base",
 							isActiveCategoryHidden &&
 								!isAnyHovered &&
 								"border-border bg-secondary-background",
 						)}
 						onClick={() => setIsSibebarOpen(true)}
 					>
-						View All <ListFilterIcon className="ml-2 size-4" />
+						View All <ListFilterIcon className="ml-2 size-5" />
 					</Button>
 				</div>
 			</div>
