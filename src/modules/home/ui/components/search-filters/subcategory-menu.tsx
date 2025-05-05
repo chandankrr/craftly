@@ -6,17 +6,9 @@ import { DEFAULT_BG_COLOR } from "@/modules/home/constants";
 interface SubcategoryMenuProps {
 	category: CategoriesGetManyOutput[1];
 	isOpen: boolean;
-	position: {
-		top: number;
-		left: number;
-	};
 }
 
-export const SubcategoryMenu = ({
-	category,
-	isOpen,
-	position,
-}: SubcategoryMenuProps) => {
+export const SubcategoryMenu = ({ category, isOpen }: SubcategoryMenuProps) => {
 	const backgroundColor = category.color || DEFAULT_BG_COLOR;
 
 	if (
@@ -29,10 +21,10 @@ export const SubcategoryMenu = ({
 
 	return (
 		<div
-			className="fixed z-50"
+			className="absolute z-50"
 			style={{
-				top: position.top,
-				left: position.left,
+				top: "100%",
+				left: 0,
 			}}
 		>
 			{/* Invisible bridge to maintain hover */}
