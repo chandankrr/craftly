@@ -38,7 +38,7 @@ export const ProductList = ({ category }: ProductListProps) => {
 
 	if (data.pages?.[0]?.docs.length === 0) {
 		return (
-			<div className="flex w-full flex-col items-center justify-center gap-y-4 rounded-lg border border-dashed border-black bg-white p-8">
+			<div className="flex h-[400px] w-full flex-col items-center justify-center gap-y-4 rounded-lg border border-dashed border-black bg-white p-8">
 				<InboxIcon />
 				<p className="text-base font-medium">No products found</p>
 			</div>
@@ -47,7 +47,7 @@ export const ProductList = ({ category }: ProductListProps) => {
 
 	return (
 		<>
-			<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+			<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
 				{data.pages
 					.flatMap((page) => page.docs)
 					.map((product) => (
