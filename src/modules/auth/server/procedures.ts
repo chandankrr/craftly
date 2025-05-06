@@ -37,6 +37,16 @@ export const authRouter = createTRPCRouter({
 				},
 			});
 
+			// Create tenant for newly registered user
+			const tenant = await ctx.payload.create({
+				collection: "tenants",
+				data: {
+					name: input.username,
+					slug: input.username,
+					stripeAccountId: "test",
+				},
+			});
+
 			const existingUser = existingData.docs[0];
 
 			if (existingUser) {
@@ -60,6 +70,7 @@ export const authRouter = createTRPCRouter({
 					email: input.email,
 					username: input.username,
 					password: input.password, // This will be hashed by payload
+					tenants: [{ tenant: tenant.id }],
 				},
 			});
 
