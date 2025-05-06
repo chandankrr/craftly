@@ -1,14 +1,19 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { StarIcon } from "lucide-react";
+
+import { generateTenantURL } from "@/lib/utils";
 
 interface ProductCardProps {
 	id: string;
 	name: string;
 	imageUrl?: string | null;
-	autherUsername: string;
-	autherImageUrl?: string | null;
+	tenantSlug: string;
+	tenantImageUrl?: string | null;
 	reviewRating: number;
 	reviewCount: number;
 	price: number;
@@ -18,12 +23,21 @@ export const ProductCard = ({
 	id,
 	name,
 	imageUrl,
-	autherUsername,
-	autherImageUrl,
+	tenantSlug,
+	tenantImageUrl,
 	reviewRating,
 	reviewCount,
 	price,
 }: ProductCardProps) => {
+	const router = useRouter();
+
+	const handleUserClick = (e: React.MouseEvent<HTMLDivElement>) => {
+		e.preventDefault();
+		e.stopPropagation();
+
+		router.push(generateTenantURL(tenantSlug));
+	};
+
 	return (
 		<Link href={`/products/${id}`}>
 			<div className="flex h-full flex-col overflow-hidden rounded-md border bg-white transition-shadow hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
@@ -37,18 +51,17 @@ export const ProductCard = ({
 				</div>
 				<div className="flex flex-1 flex-col gap-3 border-y p-4">
 					<h2 className="line-clamp-4 text-lg font-medium">{name}</h2>
-					{/* TODO: Rediret to user shop */}
-					<div onClick={() => {}} className="flex items-center gap-2">
-						{autherImageUrl && (
+					<div onClick={handleUserClick} className="flex items-center gap-2">
+						{tenantImageUrl && (
 							<Image
-								src={autherImageUrl}
-								alt={autherUsername}
+								src={tenantImageUrl}
+								alt={tenantSlug}
 								width={16}
 								height={16}
 								className="size-[16px] shrink-0 rounded-full border"
 							/>
 						)}
-						<p className="text-sm font-medium underline">{autherUsername}</p>
+						<p className="text-sm font-medium underline">{tenantSlug}</p>
 					</div>
 					{reviewCount > 0 && (
 						<div className="flex items-center gap-1">

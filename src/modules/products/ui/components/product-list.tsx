@@ -14,9 +14,10 @@ import { ProductCard } from "./product-card";
 
 interface ProductListProps {
 	category?: string;
+	tenantSlug?: string;
 }
 
-export const ProductList = ({ category }: ProductListProps) => {
+export const ProductList = ({ category, tenantSlug }: ProductListProps) => {
 	const [filters] = useProductFilters();
 
 	const trpc = useTRPC();
@@ -26,6 +27,7 @@ export const ProductList = ({ category }: ProductListProps) => {
 				{
 					...filters,
 					category,
+					tenantSlug,
 					limit: DEFAULT_LIMIT,
 				},
 				{
@@ -56,8 +58,8 @@ export const ProductList = ({ category }: ProductListProps) => {
 							id={product.id}
 							name={product.name}
 							imageUrl={product.image?.url}
-							autherUsername="chandankrr"
-							autherImageUrl={undefined}
+							tenantSlug={product.tenant.slug}
+							tenantImageUrl={product.tenant.image?.url}
 							reviewRating={3}
 							reviewCount={5}
 							price={product.price}
