@@ -37,16 +37,6 @@ export const authRouter = createTRPCRouter({
 				},
 			});
 
-			// Create tenant for newly registered user
-			const tenant = await ctx.payload.create({
-				collection: "tenants",
-				data: {
-					name: input.username,
-					slug: input.username,
-					stripeAccountId: "test",
-				},
-			});
-
 			const existingUser = existingData.docs[0];
 
 			if (existingUser) {
@@ -64,15 +54,46 @@ export const authRouter = createTRPCRouter({
 				}
 			}
 
-			await ctx.payload.create({
-				collection: "users",
-				data: {
-					email: input.email,
-					username: input.username,
-					password: input.password, // This will be hashed by payload
-					tenants: [{ tenant: tenant.id }],
-				},
-			});
+			// Create tenant for newly registered user
+			let tenant;
+			try {
+				tenant = await ctx.payload.create({
+					collection: "tenants",
+					data: {
+						name: input.username,
+						slug: input.username,
+						stripeAccountId: "test",
+					},
+				});
+			} catch {
+				throw new TRPCError({
+					code: "INTERNAL_SERVER_ERROR",
+					message: "Failed to create tenant",
+				});
+			}
+
+			try {
+				await ctx.payload.create({
+					collection: "users",
+					data: {
+						email: input.email,
+						username: input.username,
+						password: input.password, // This will be hashed by payload
+						tenants: [{ tenant: tenant.id }],
+					},
+				});
+			} catch {
+				// Rollback tenant if user creation fails
+				await ctx.payload.delete({
+					collection: "tenants",
+					id: tenant.id,
+				});
+
+				throw new TRPCError({
+					code: "INTERNAL_SERVER_ERROR",
+					message: "Failed to create user",
+				});
+			}
 
 			// Login after registration
 			const data = await ctx.payload.login({
