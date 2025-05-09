@@ -154,7 +154,7 @@ export const SignUpView = () => {
 							disabled={register.isPending}
 							variant="reverse"
 							size="lg"
-							className="bg-foreground text-secondary-background hover:text-foreground hover:bg-pink-400"
+							className="bg-foreground text-secondary-background hover:text-foreground h-12 hover:bg-pink-400"
 						>
 							Create account
 						</Button>
