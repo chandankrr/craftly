@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment } from "react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -14,6 +15,18 @@ import { formatCurrency, generateTenantURL } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { StarRating } from "@/components/star-rating";
+
+const CartButton = dynamic(
+	() => import("../components/cart-button").then((mod) => mod.CartButton),
+	{
+		ssr: false,
+		loading: () => (
+			<Button variant="noShadow" disabled className="h-12 flex-1 bg-pink-400">
+				Add to cart
+			</Button>
+		),
+	},
+);
 
 interface ProductViewProps {
 	productId: string;
@@ -102,12 +115,10 @@ export const ProductView = ({ productId, tenantSlug }: ProductViewProps) => {
 						<div className="h-full border-t lg:border-t-0 lg:border-l">
 							<div className="flex flex-col gap-4 border-b p-6">
 								<div className="flex flex-row items-center gap-2">
-									<Button variant="reverse" className="h-12 flex-1 bg-pink-400">
-										Add to cart
-									</Button>
+									<CartButton tenantSlug={tenantSlug} productId={productId} />
 									<Button
 										variant="reverse"
-										className="size-12"
+										className="size-12 bg-white"
 										onClick={() => {}}
 										disabled={false}
 									>
