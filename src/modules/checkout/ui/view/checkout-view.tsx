@@ -57,7 +57,7 @@ export const CheckoutView = ({ tenantSlug }: CheckoutViewProps) => {
 			// TODO: Invalidate library
 			router.push("/products");
 		}
-	}, [states.success, clearCart, router, setStates]);
+	}, [states.success, clearCart, router]);
 
 	useEffect(() => {
 		if (error?.data?.code === "NOT_FOUND") {
