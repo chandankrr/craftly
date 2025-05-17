@@ -42,7 +42,7 @@ export const CheckoutView = ({ tenantSlug }: CheckoutViewProps) => {
 			},
 			onError: (error) => {
 				if (error.data?.code === "UNAUTHORIZED") {
-					router.push("sign-in");
+					router.push("/sign-in");
 				}
 
 				toast.error(error.message);

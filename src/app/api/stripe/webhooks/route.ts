@@ -63,7 +63,7 @@ export async function POST(req: Request) {
 
 					if (
 						!expandedSession.line_items?.data ||
-						expandedSession.line_items.data.length
+						expandedSession.line_items.data.length === 0
 					) {
 						throw new Error("No line items found");
 					}
