@@ -1,4 +1,4 @@
-import { CheckoutView } from "@/modules/checkout/ui/view/checkout-view";
+import { CheckoutView } from "@/modules/checkout/ui/views/checkout-view";
 
 interface CheckoutPageProps {
 	params: Promise<{ slug: string }>;

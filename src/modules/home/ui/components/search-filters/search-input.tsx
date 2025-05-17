@@ -48,7 +48,7 @@ export const SearchInput = ({ disabled }: SearchInputProps) => {
 					className="bg-secondary-background flex h-12 shrink-0"
 					asChild
 				>
-					<Link href="/library">
+					<Link prefetch href="/library">
 						<BookmarkCheckIcon />{" "}
 						<span className="hidden lg:block">Library</span>
 					</Link>

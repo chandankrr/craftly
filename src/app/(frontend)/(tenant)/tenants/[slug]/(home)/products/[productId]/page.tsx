@@ -2,7 +2,7 @@ import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 import { getQueryClient, trpc } from "@/trpc/server";
 
-import { ProductView } from "@/modules/products/ui/view/product-view";
+import { ProductView } from "@/modules/products/ui/views/product-view";
 
 interface ProductPageProps {
 	params: Promise<{ productId: string; slug: string }>;

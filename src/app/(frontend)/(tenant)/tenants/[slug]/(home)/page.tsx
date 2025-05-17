@@ -5,7 +5,7 @@ import { getQueryClient, trpc } from "@/trpc/server";
 
 import { DEFAULT_LIMIT } from "@/lib/constants";
 import { loadProductFilters } from "@/modules/products/search-params";
-import { ProductListView } from "@/modules/products/ui/view/product-list-view";
+import { ProductListView } from "@/modules/products/ui/views/product-list-view";
 
 interface TenantHomePageProps {
 	searchParams: Promise<SearchParams>;

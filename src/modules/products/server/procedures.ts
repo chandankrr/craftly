@@ -1,3 +1,5 @@
+import { headers as getHeaders } from "next/headers";
+
 import type { Sort, Where } from "payload";
 import z from "zod";
 
@@ -16,14 +18,39 @@ export const productsRouter = createTRPCRouter({
 			}),
 		)
 		.query(async ({ ctx, input }) => {
+			const headers = await getHeaders();
+			const session = await ctx.payload.auth({ headers });
+
 			const product = await ctx.payload.findByID({
 				collection: "products",
 				id: input.id,
 				depth: 2, // Load the "product.image", "product.tenant" & "product.tenant.image"
 			});
 
+			let isPurchased = false;
+
+			if (session.user) {
+				const ordersData = await ctx.payload.find({
+					collection: "orders",
+					pagination: false,
+					where: {
+						and: [
+							{ product: { equals: product.id } },
+							{
+								user: {
+									equals: session.user.id,
+								},
+							},
+						],
+					},
+				});
+
+				isPurchased = ordersData.totalDocs > 0;
+			}
+
 			return {
 				...product,
+				isPurchased,
 				image: product.image as Media | null,
 				tenant: product.tenant as Tenant & { image: Media | null },
 			};
