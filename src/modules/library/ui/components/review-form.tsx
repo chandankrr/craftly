@@ -147,7 +147,7 @@ export const ReviewForm = ({ productId, initialData }: ReviewFormProps) => {
 					onClick={() => setIsPreview(false)}
 					type="button"
 					variant="reverse"
-					className="mt-4 h-12 w-fit"
+					className="mt-4 w-fit bg-black text-white hover:bg-pink-400 hover:text-black"
 				>
 					Edit
 				</Button>

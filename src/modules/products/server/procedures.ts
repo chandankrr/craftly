@@ -204,27 +204,51 @@ export const productsRouter = createTRPCRouter({
 				limit: input.limit,
 			});
 
-			const dataWithSummarizedReviews = await Promise.all(
-				data.docs.map(async (doc) => {
-					const reviewsData = await ctx.payload.find({
-						collection: "reviews",
-						pagination: false,
-						where: {
-							product: {
-								equals: doc.id,
-							},
-						},
-					});
+			const productIds = data.docs.map((doc) => doc.id);
 
-					return {
-						...doc,
-						reviewsCount: reviewsData.totalDocs,
-						reviewRating:
-							reviewsData.docs.reduce((acc, review) => acc + review.rating, 0) /
-							reviewsData.totalDocs,
-					};
-				}),
-			);
+			// Fetch all reviews for the listed products in a single query
+			const allReviews = await ctx.payload.find({
+				collection: "reviews",
+				pagination: false,
+				where: {
+					product: {
+						in: productIds,
+					},
+				},
+			});
+
+			// Aggregate reviews by productId
+			const reviewsByProductId = new Map<
+				string,
+				{ total: number; sum: number }
+			>();
+
+			allReviews.docs.forEach((review) => {
+				const productId =
+					typeof review.product === "string"
+						? review.product
+						: review.product.id;
+				if (!reviewsByProductId.has(productId)) {
+					reviewsByProductId.set(productId, { total: 0, sum: 0 });
+				}
+
+				const stats = reviewsByProductId.get(productId)!;
+				stats.total += 1;
+				stats.sum += review.rating;
+			});
+
+			// Merge review summaries into each product
+			const dataWithSummarizedReviews = data.docs.map((doc) => {
+				const stats = reviewsByProductId.get(doc.id);
+				const total = stats?.total ?? 0;
+				const sum = stats?.sum ?? 0;
+
+				return {
+					...doc,
+					reviewsCount: total,
+					reviewRating: total > 0 ? sum / total : 0,
+				};
+			});
 
 			return {
 				...data,

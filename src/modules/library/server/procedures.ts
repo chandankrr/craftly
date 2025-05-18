@@ -71,39 +71,64 @@ export const libraryRouter = createTRPCRouter({
 				},
 			});
 
-			const productsIds = ordersData.docs.map((doc) => doc.product);
+			let productIds = ordersData.docs.map((doc) => doc.product);
 
 			const productsData = await ctx.payload.find({
 				collection: "products",
 				pagination: false,
 				where: {
 					id: {
-						in: productsIds,
+						in: productIds,
 					},
 				},
 			});
 
-			const dataWithSummarizedReviews = await Promise.all(
-				productsData.docs.map(async (doc) => {
-					const reviewsData = await ctx.payload.find({
-						collection: "reviews",
-						pagination: false,
-						where: {
-							product: {
-								equals: doc.id,
-							},
-						},
-					});
+			// Again map all the productIds based on fetched products
+			productIds = productsData.docs.map((doc) => doc.id);
 
-					return {
-						...doc,
-						reviewsCount: reviewsData.totalDocs,
-						reviewRating:
-							reviewsData.docs.reduce((acc, review) => acc + review.rating, 0) /
-							reviewsData.totalDocs,
-					};
-				}),
-			);
+			// Fetch all reviews for the listed products in a single query
+			const allReviews = await ctx.payload.find({
+				collection: "reviews",
+				pagination: false,
+				where: {
+					product: {
+						in: productIds,
+					},
+				},
+			});
+
+			// Aggregate reviews by productId
+			const reviewsByProductId = new Map<
+				string,
+				{ total: number; sum: number }
+			>();
+
+			allReviews.docs.forEach((review) => {
+				const productId =
+					typeof review.product === "string"
+						? review.product
+						: review.product.id;
+				if (!reviewsByProductId.has(productId)) {
+					reviewsByProductId.set(productId, { total: 0, sum: 0 });
+				}
+
+				const stats = reviewsByProductId.get(productId)!;
+				stats.total += 1;
+				stats.sum += review.rating;
+			});
+
+			// Merge review summaries into each product
+			const dataWithSummarizedReviews = productsData.docs.map((doc) => {
+				const stats = reviewsByProductId.get(doc.id);
+				const total = stats?.total ?? 0;
+				const sum = stats?.sum ?? 0;
+
+				return {
+					...doc,
+					reviewsCount: total,
+					reviewRating: total > 0 ? sum / total : 0,
+				};
+			});
 
 			return {
 				...productsData,
