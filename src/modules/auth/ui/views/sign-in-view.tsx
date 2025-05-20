@@ -45,6 +45,7 @@ export const SignInView = () => {
 			},
 			onSuccess: async () => {
 				await queryClient.invalidateQueries(trpc.auth.session.queryFilter());
+				toast.success("Logged in successfully");
 				router.push("/");
 			},
 		}),
