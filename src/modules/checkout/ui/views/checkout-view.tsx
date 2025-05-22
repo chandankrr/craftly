@@ -60,7 +60,14 @@ export const CheckoutView = ({ tenantSlug }: CheckoutViewProps) => {
 
 			router.push("/library");
 		}
-	}, [states.success, clearCart, router, queryClient, trpc.library.getMany]);
+	}, [
+		states.success,
+		setStates,
+		clearCart,
+		router,
+		queryClient,
+		trpc.library.getMany,
+	]);
 
 	useEffect(() => {
 		if (error?.data?.code === "NOT_FOUND") {
