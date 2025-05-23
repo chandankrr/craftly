@@ -84,7 +84,9 @@ export const Navbar = () => {
 						className="hover:bg-main bg-foreground hover:text-main-foreground h-full rounded-none border-0 border-l px-12 text-lg text-white transition-colors"
 						asChild
 					>
-						<Link href="/admin">Dashboard</Link>
+						<Link target="_blank" href="/admin">
+							Dashboard
+						</Link>
 					</Button>
 				</div>
 			) : (
