@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import { useQuery } from "@tanstack/react-query";
 import { BookmarkCheckIcon, ListFilterIcon, SearchIcon } from "lucide-react";
 
 import { useTRPC } from "@/trpc/client";
+
+import { useProductFilters } from "@/modules/products/hooks/use-product-filters";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,10 +20,21 @@ interface SearchInputProps {
 }
 
 export const SearchInput = ({ disabled }: SearchInputProps) => {
+	const [filters, setFilters] = useProductFilters();
+	const [searchValue, setSearchValue] = useState(filters.search);
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
 	const trpc = useTRPC();
 	const session = useQuery(trpc.auth.session.queryOptions());
+
+	// Debounce search value
+	useEffect(() => {
+		const timeoutId = setTimeout(() => {
+			setFilters({ search: searchValue });
+		}, 500);
+
+		return () => clearTimeout(timeoutId);
+	}, [searchValue, setFilters]);
 
 	return (
 		<div className="flex w-full items-center gap-2">
@@ -30,6 +43,8 @@ export const SearchInput = ({ disabled }: SearchInputProps) => {
 				<Input
 					className="h-12 pl-8"
 					placeholder="Search products"
+					value={searchValue}
+					onChange={(e) => setSearchValue(e.target.value)}
 					disabled={disabled}
 				/>
 			</div>
