@@ -8,20 +8,23 @@ import { BookmarkCheckIcon, ListFilterIcon, SearchIcon } from "lucide-react";
 
 import { useTRPC } from "@/trpc/client";
 
-import { useProductFilters } from "@/modules/products/hooks/use-product-filters";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { CategoriesSidebar } from "./categories-sidebar";
 
 interface SearchInputProps {
+	defaultValue?: string | undefined;
+	onChange?: (value: string) => void;
 	disabled?: boolean;
 }
 
-export const SearchInput = ({ disabled }: SearchInputProps) => {
-	const [filters, setFilters] = useProductFilters();
-	const [searchValue, setSearchValue] = useState(filters.search);
+export const SearchInput = ({
+	defaultValue,
+	onChange,
+	disabled,
+}: SearchInputProps) => {
+	const [searchValue, setSearchValue] = useState(defaultValue || "");
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
 	const trpc = useTRPC();
@@ -30,11 +33,11 @@ export const SearchInput = ({ disabled }: SearchInputProps) => {
 	// Debounce search value
 	useEffect(() => {
 		const timeoutId = setTimeout(() => {
-			setFilters({ search: searchValue });
+			onChange?.(searchValue);
 		}, 500);
 
 		return () => clearTimeout(timeoutId);
-	}, [searchValue, setFilters]);
+	}, [searchValue, onChange]);
 
 	return (
 		<div className="flex w-full items-center gap-2">
